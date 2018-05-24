@@ -1,0 +1,20 @@
+{
+  "timeFrameEnergy":
+  {
+    "endLifetimeEnergy":
+    {
+      "date": "2018-05-22",
+      "energy": 1295906.8,
+      "unit": "Wh"
+    },
+    "energy": 1128105.8,
+    "measuredBy": "INVERTER",
+    "unit": "Wh",
+    "startLifetimeEnergy":
+    {
+      "date": "2017-12-31",
+      "energy": 167800.98,
+      "unit": "Wh"
+    }
+  }
+}
