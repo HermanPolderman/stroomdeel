@@ -2,7 +2,7 @@ package hello;
 
 public class TimeFrameEnergy {
 
-    public String energy;
+    public Double energy;
     public String measuredBy;
     public String unit;
     public LifetimeEnergy startLifetimeEnergy;

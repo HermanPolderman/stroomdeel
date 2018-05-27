@@ -2,7 +2,7 @@ package hello;
 
 public class LifetimeEnergy {
 
-    public String energy;
+    public Double energy;
     public String date;
     public String unit;
 }

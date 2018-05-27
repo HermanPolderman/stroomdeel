@@ -1,0 +1,12 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Stroomdeel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p th:text="'Beste ' + ${naam} + ',
+     er was tot en met vandaag '+${totaalkwh}+' '+${unit}+' voor '+${totaalstroomdelen}+' stroomdelen,
+     dus met ' + ${stroomdelen} + ' stroomdelen heb je ' + ${kwh} + ' '+${unit}+' '" />
+</body>
+</html>

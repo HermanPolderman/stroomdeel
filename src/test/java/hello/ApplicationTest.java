@@ -28,7 +28,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = GreetingController.class)
+@WebMvcTest(controllers = StroomdeelController.class)
 public class ApplicationTest {
 
     @Autowired
@@ -38,19 +38,19 @@ public class ApplicationTest {
     public void homePage() throws Exception {
         // N.B. jsoup can be useful for asserting HTML content
         mockMvc.perform(get("/index.html"))
-                .andExpect(content().string(containsString("Get your greeting")));
+                .andExpect(content().string(containsString("Toon opbrengsten")));
     }
 
     @Test
     public void greeting() throws Exception {
-        mockMvc.perform(get("/greeting"))
-                .andExpect(content().string(containsString("Hello, World!")));
+        mockMvc.perform(get("/stroomdeel"))
+                .andExpect(content().string(containsString("Beste")));
     }
 
     @Test
     public void greetingWithUser() throws Exception {
-        mockMvc.perform(get("/greeting").param("name", "Greg"))
-                .andExpect(content().string(containsString("Hello, Greg!")));
+        mockMvc.perform(get("/stroomdeel").param("naam", "Greg"))
+                .andExpect(content().string(containsString("Greg")));
     }
 
 }
