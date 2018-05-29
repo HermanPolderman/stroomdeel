@@ -52,14 +52,18 @@ public class StroomdeelController {
                 Double kwh = (data.timeFrameEnergy.energy/factor/totaalstroomdelen*stroomdelen);
                 Double totaalkwh = (data.timeFrameEnergy.energy/factor);
                 model.addAttribute("unit", "kWh");
-
                 model.addAttribute("kwh", kwh.intValue());
                 model.addAttribute("totaalkwh", totaalkwh.intValue());
+                model.addAttribute("startDate", startDate);
+                model.addAttribute("endDate", endDate);
+                return "stroomdeel";
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return "fout";
         }
-        return "stroomdeel";
+
+        return "fout";
+
     }
 
 }
