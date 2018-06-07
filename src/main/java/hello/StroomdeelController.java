@@ -1,6 +1,8 @@
 package hello;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -20,21 +22,26 @@ import java.util.Date;
 @Controller
 public class StroomdeelController {
 
+    protected final Log logger = LogFactory.getLog(this.getClass());
+
     HttpClientBuilder clientbuilder = HttpClientBuilder.create();
     HttpHost target = new HttpHost("monitoringapi.solaredge.com", 443, "https");
     String startDate = "2018-06-01";
-    String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
     String siteid = "715131";
     String api_key = "LNEPU21MZLCJSPTEDWPXAQZ09SMFXL8D";
     String siteidpolletjes = "564256";
     String api_key_polletjes = "NCFWGOTDJ225818AQJTFFT1W137XMCQO";
-    HttpGet getRequest = new HttpGet("/site/"+siteid+"/timeFrameEnergy.json?startDate="+startDate+"&endDate="+endDate+"&api_key="+api_key);
+
 
     @GetMapping("/stroomdeel")
     public String greeting(@RequestParam(name="naam", required=false, defaultValue="Herman") String naam, Model model) {
 
         Integer stroomdelen = 1;
         Integer totaalstroomdelen = 912;
+
+        String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        HttpGet getRequest = new HttpGet("/site/"+siteid+"/timeFrameEnergy.json?startDate="+startDate+"&endDate="+endDate+"&api_key="+api_key);
 
         model.addAttribute("naam", naam);
         model.addAttribute("stroomdelen", stroomdelen);
@@ -60,15 +67,14 @@ public class StroomdeelController {
                 model.addAttribute("totaalkwh", String.format( "%.2f", totaalkwh));
                 model.addAttribute("startDate", startDate);
                 model.addAttribute("endDate", endDate);
-                System.out.println(model.toString());
+                logger.info(model.toString());
                 return "stroomdeel";
             }
         } catch (Exception e) {
+            logger.error("", e);
             return "fout";
         }
-
         return "fout";
-
     }
 
 }
