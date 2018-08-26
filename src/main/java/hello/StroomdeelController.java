@@ -35,9 +35,9 @@ public class StroomdeelController {
 
 
     @GetMapping("/stroomdeel")
-    public String greeting(@RequestParam(name="naam", required=false, defaultValue="Herman") String naam, Model model) {
-
-        Integer stroomdelen = 1;
+    public String greeting(@RequestParam(name="naam", required=false, defaultValue="Herman") String naam,
+                           @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
+                           Model model) {
         Integer totaalstroomdelen = 912;
 
         String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -67,6 +67,7 @@ public class StroomdeelController {
                 model.addAttribute("totaalkwh", String.format( "%.2f", totaalkwh));
                 model.addAttribute("startDate", startDate);
                 model.addAttribute("endDate", endDate);
+                model.addAttribute("opbrengst", String.format( "%.0f", (stroomdelen*kwh)));
                 logger.info(model.toString());
                 return "stroomdeel";
             }

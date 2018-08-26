@@ -5,8 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p th:text="'Beste ' + ${naam} + ',
-     er is van '+${startDate}+' t/m '+${endDate}+' met '+${totaalstroomdelen}+' stroomdelen '+${totaalkwh}+' '+${unit}+' geproduceerd.
-     Dat is ' + ${kwh} + ' '+${unit}+' per stroomdeel.'" />
+    <p th:text="'Beste ' + ${naam} + ','" />
+    <p th:text="'Er is van '+${startDate}+' t/m '+${endDate}+' met '+${totaalstroomdelen}+' stroomdelen '+${totaalkwh}+' '+${unit}+' geproduceerd.'" />
+    <p th:text="'Dat is ' + ${kwh} + ' ' + ${unit}+' per stroomdeel.'" />
+    <p th:text="'Met jouw ' + ${stroomdelen} + ' stroomdelen geeft dat ' + ${opbrengst} + ' ' + ${unit}+'.'" />
 </body>
 </html>
