@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/css/flipclock.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script src="/js/flipclock.js"></script>
+</head>
+<body>
+<div class="clock" style="margin:2em;"></div>
+
+<script type="text/javascript">
+    var clock;
+    var kwh = [[${totaalkwh}]] ;
+    $(document).ready(function() {
+
+        // Instantiate a counter
+        clock = new FlipClock($('.clock'), kwh,
+        {
+            clockFace: 'Counter',
+            autoStart: false,
+            minimumDigits: 7
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -40,21 +40,44 @@ public class StroomdeelController {
     Integer totaalstroomdelen = 912;
 
     @GetMapping("/stroomdeel")
-    public String greeting(@RequestParam(name="naam", required=false, defaultValue="Herman") String naam,
+    public String greeting(@RequestParam(name="naam", required=false, defaultValue="Deelstromer") String naam,
                            @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
                            Model model) {
         try {
             readSolarEdge(model, naam, stroomdelen);
-            return "stroomdeel";
+            if (stroomdelen >0) {
+                return "stroomdeel";
+            } else {
+                return "stroomdeel-algemeen";
+            }
         } catch (Exception e) {
             logger.error("", e);
             return "fout";
         }
     }
 
+    @GetMapping("/counter2")
+    public String counter(HttpServletResponse response,
+                                    @RequestParam(name="naam", required=false, defaultValue="Deelstromer") String naam,
+                                    @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
+                                    Model model) throws IOException {
+        SolarEdgeData data = readSolarEdge();
+        int factor =1;
+        switch (data.timeFrameEnergy.unit) {
+            case "Wh":
+                factor = 1000;
+                break;
+            default:
+        }
+        Double totaalkwh = (data.timeFrameEnergy.energy/factor);
+        model.addAttribute("totaalkwh", String.format( "%.0f", totaalkwh));
+
+        return "flipclock";
+    }
+
     @GetMapping("/counter")
     public void getImageAsByteArray(HttpServletResponse response,
-                                    @RequestParam(name="naam", required=false, defaultValue="Herman") String naam,
+                                    @RequestParam(name="naam", required=false, defaultValue="Deelstromer") String naam,
                                     @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
                                     Model model) throws IOException {
         SolarEdgeData data = readSolarEdge();
@@ -87,7 +110,7 @@ public class StroomdeelController {
                     break;
                 default:
             }
-            Double kwh = (data.timeFrameEnergy.energy/factor/totaalstroomdelen*stroomdelen);
+            Double kwh = (data.timeFrameEnergy.energy/factor/totaalstroomdelen);
             Double totaalkwh = (data.timeFrameEnergy.energy/factor);
             model.addAttribute("unit", "kWh");
             model.addAttribute("kwh", String.format( "%.2f", kwh ));
