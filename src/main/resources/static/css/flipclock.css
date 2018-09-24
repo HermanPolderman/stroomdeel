@@ -1,6 +1,20 @@
 /* Get the bourbon mixin from http://bourbon.io */
 /* Reset */
+
+.clock {
+    transform-origin: 0 0;
+    transform: scale(.4);
+    -ms-transform: scale(.4);
+    -webkit-transform-origin: 0 0;
+    -webkit-transform: scale(.4);
+    -o-transform-origin: 0 0;
+    -o-transform: scale(.4);
+    -moz-transform-origin: 0 0;
+    -moz-transform: scale(.4);
+}
+
 .flip-clock-wrapper * {
+    position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -50,14 +64,21 @@
 .flip-clock-wrapper {
   text-align: center;
   position: relative;
-  width: 100%;
-  margin: 1em;
+  width: 500px;
+  margin: 0em;
 }
 
-.flip-clock-wrapper:before,
-.flip-clock-wrapper:after {
+.flip-clock-wrapper:before
+{
     content: " "; /* 1 */
     display: table; /* 2 */
+}
+.flip-clock-wrapper:after {
+    content: " kWh"; /* 1 */
+    display: table; /* 2 */
+    text-align: right;
+    font-size: 50px;
+    color: #00f;
 }
 .flip-clock-wrapper:after {
     clear: both;
@@ -126,7 +147,7 @@
   top: 0; }
 
 .flip-clock-wrapper ul li a div.up:after {
-  content: "";
+  content: " ";
   position: absolute;
   top: 44px;
   left: 0;
