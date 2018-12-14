@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ActueleVertrekTijden>
+
+    <VertrekkendeTrein>
+        <RitNummer>1172</RitNummer>
+        <VertrekTijd>2018-12-14T21:30:00+0100</VertrekTijd>
+        <VertrekVertraging>PT5M</VertrekVertraging>
+        <VertrekVertragingTekst>+5 min</VertrekVertragingTekst>
+        <EindBestemming>Den Haag Centraal</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+        <RouteTekst>Den Haag HS</RouteTekst>
+        <Vervoerder>NS</Vervoerder>
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2270</RitNummer>
+        <VertrekTijd>2018-12-14T21:35:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Vlissingen</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Rotterdam C., Dordrecht, Roosendaal</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>5183</RitNummer>
+        <VertrekTijd>2018-12-14T21:39:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Dordrecht</EindBestemming>
+        <TreinSoort>Sprinter</TreinSoort>
+
+        <RouteTekst>Rotterdam C.</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2472</RitNummer>
+        <VertrekTijd>2018-12-14T21:39:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Duivendrecht</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Den Haag HS, Leiden C., Schiphol Airport</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>5174</RitNummer>
+        <VertrekTijd>2018-12-14T21:50:00+0100</VertrekTijd>
+
+        <VertrekVertraging>PT1M</VertrekVertraging>
+
+
+        <VertrekVertragingTekst>+1 min</VertrekVertragingTekst>
+
+        <EindBestemming>Den Haag Centraal</EindBestemming>
+        <TreinSoort>Sprinter</TreinSoort>
+
+        <RouteTekst>Den Haag HS</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2483</RitNummer>
+        <VertrekTijd>2018-12-14T21:50:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Dordrecht</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Rotterdam C.</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2283</RitNummer>
+        <VertrekTijd>2018-12-14T21:54:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Amsterdam Centraal</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Den Haag HS, Leiden C., Haarlem</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>1174</RitNummer>
+        <VertrekTijd>2018-12-14T22:00:00+0100</VertrekTijd>
+
+        <VertrekVertraging>PT1M</VertrekVertraging>
+
+
+        <VertrekVertragingTekst>+1 min</VertrekVertragingTekst>
+
+        <EindBestemming>Den Haag Centraal</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Den Haag HS</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>1183</RitNummer>
+        <VertrekTijd>2018-12-14T22:01:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Eindhoven</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Rotterdam C., Breda, Tilburg</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2272</RitNummer>
+        <VertrekTijd>2018-12-14T22:05:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Vlissingen</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Rotterdam C., Dordrecht, Roosendaal</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>5185</RitNummer>
+        <VertrekTijd>2018-12-14T22:09:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Dordrecht</EindBestemming>
+        <TreinSoort>Sprinter</TreinSoort>
+
+        <RouteTekst>Rotterdam C.</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2474</RitNummer>
+        <VertrekTijd>2018-12-14T22:09:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Duivendrecht</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Den Haag HS, Leiden C., Schiphol Airport</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>5176</RitNummer>
+        <VertrekTijd>2018-12-14T22:20:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Den Haag Centraal</EindBestemming>
+        <TreinSoort>Sprinter</TreinSoort>
+
+        <RouteTekst>Den Haag HS</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2485</RitNummer>
+        <VertrekTijd>2018-12-14T22:20:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Dordrecht</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Rotterdam C.</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>2285</RitNummer>
+        <VertrekTijd>2018-12-14T22:24:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Amsterdam Centraal</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Den Haag HS, Leiden C., Haarlem</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>1176</RitNummer>
+        <VertrekTijd>2018-12-14T22:30:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Den Haag Centraal</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Den Haag HS</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">1</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+    <VertrekkendeTrein>
+        <RitNummer>1185</RitNummer>
+        <VertrekTijd>2018-12-14T22:31:00+0100</VertrekTijd>
+
+
+        <EindBestemming>Eindhoven</EindBestemming>
+        <TreinSoort>Intercity</TreinSoort>
+
+        <RouteTekst>Rotterdam C., Breda, Tilburg</RouteTekst>
+
+
+        <Vervoerder>NS</Vervoerder>
+
+        <VertrekSpoor wijziging="false">2</VertrekSpoor>
+
+
+    </VertrekkendeTrein>
+
+</ActueleVertrekTijden>
