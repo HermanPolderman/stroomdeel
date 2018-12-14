@@ -3,4 +3,5 @@ target/
 .DS_Store
 .mvn/
 deploy.sh
+*.properties
 

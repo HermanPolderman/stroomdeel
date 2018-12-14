@@ -60,45 +60,6 @@ public class StroomdeelController {
         }
     }
 
-    @GetMapping("/trein")
-    public String trein(HttpServletResponse response,
-                          @RequestParam(name="naam", required=false, defaultValue="Deelstromer") String naam,
-                          @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
-                          Model model) throws IOException {
-        ActueleVertrekTijden data = readTreinData();
-
-        model.addAttribute("trein", data.vertrekkendeTrein[0]);
-
-        return "trein";
-    }
-
-    private ActueleVertrekTijden readTreinData() {
-        ActueleVertrekTijden data = new ActueleVertrekTijden();
-        HttpHost target = new HttpHost("webservices.ns.nl", 80, "http");
-        HttpGet getRequest = new HttpGet("/ns-api-avt?station=delft");
-
-        CredentialsProvider provider = new BasicCredentialsProvider();
-        UsernamePasswordCredentials credentials
-                = new UsernamePasswordCredentials("herman@polderman.net", "b3WBvUCDb_TYe7D0maF773sHOcgmPgmM-Yx8kykTqAAPdtwWQX191Q");
-        provider.setCredentials(AuthScope.ANY, credentials);
-
-        try (CloseableHttpClient httpclient = clientbuilder.setDefaultCredentialsProvider(provider).build()) {
-            HttpResponse httpResponse = httpclient.execute(target, getRequest);
-            HttpEntity entity = httpResponse.getEntity();
-            if (entity != null) {
-                String xml = EntityUtils.toString(entity);
-                JacksonXmlModule xmlModule = new JacksonXmlModule();
-                xmlModule.setDefaultUseWrapper(false);
-
-                XmlMapper xmlMapper = new XmlMapper(xmlModule);
-                data = xmlMapper.readValue(xml, ActueleVertrekTijden.class);
-            }
-        } catch (Exception e) {
-            logger.error("", e);
-        }
-        return data;
-    }
-
     @GetMapping("/counter2")
     public String counter(HttpServletResponse response,
                                     @RequestParam(name="naam", required=false, defaultValue="Deelstromer") String naam,
