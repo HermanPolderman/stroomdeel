@@ -5,6 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body style="color: #386eff;">
-    <p th:text="'Spoor ' + ${trein.VertrekSpoor} + ' om ' + ${trein.VertrekTijd}" />
+    <p th:text="'Trein ' + ${trein.getRideNumber()} + ' naar ' + ${trein.getDestination()} +  ' om ' + ${trein.getDepartureTime()}" />
 </body>
 </html>
