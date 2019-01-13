@@ -5,109 +5,148 @@ import com.basdado.trainfinder.ns.communicator.NSCommunicatorConfiguration;
 import com.basdado.trainfinder.ns.exception.NSException;
 import com.basdado.trainfinder.ns.model.Departure;
 import com.basdado.trainfinder.ns.model.DepartureInfoResponse;
-import com.basdado.trainfinder.ns.model.Station;
-import com.basdado.trainfinder.ns.model.StationInfoResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
+import java.util.Iterator;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Controller
 @Configuration
 public class TreinController {
 
-    protected final Log logger = LogFactory.getLog(this.getClass());
+    public static final String DELFT = "delft";
+    public static final String RIJSW = "rijswijk";
+    public static final String DHHS = "Den%20Haag%20HS";
 
-    NSCommunicator nsCommunicator = null;
+    private final Log logger = LogFactory.getLog(this.getClass());
+    private NSCommunicator nsCommunicator = null;
+    private static SortedMap<String, Departure> treinenOndermolen = new TreeMap<String, Departure>();
+
+    @Value("${ns.username}")
+    private String NSusername;
+    @Value("${ns.password}")
+    private String NSpw;
+
+    @GetMapping(value = "/trein.txt", produces = "text/plain")
+    @ResponseBody
+    public String treintxt() throws IOException {
+        Departure beste = getBestDeparture();
+        return "spoor "+beste.getTrack()+" "+ beste.getOrigin()+" "+ beste.getDestination()+" "+beste.getDepartureTime();
+    }
 
     @GetMapping("/trein")
-    public String trein(HttpServletResponse response,
-                          @RequestParam(name="naam", required=false, defaultValue="Deelstromer") String naam,
-                          @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
-                          Model model,
-                          @Value("${ns.username}") String username,
-                          @Value("${ns.password}") String password) throws IOException {
-        DepartureInfoResponse delftResponse;
-        DepartureInfoResponse rijswijkResponse;
-        DepartureInfoResponse denhaagHSResponse;
-        try {
-//            StationInfoResponse stations = produceNSCommunicator(username, password).getStations();
-//            for (Station stat : stations.getStations()) {
-//                logger.error(stat.getStationNames().getShortName()+ " " + stat.getStationNames().getMediumName());
-//            }
-            delftResponse = produceNSCommunicator(username, password).getDepartures("delft");
-            rijswijkResponse = produceNSCommunicator(username, password).getDepartures("rijswijk");
-            denhaagHSResponse = produceNSCommunicator(username, password).getDepartures("Den%20Haag%20HS");
+    public String trein(Model model) throws IOException {
 
-            Departure beste = null;
-            for (Departure trein : delftResponse.getDepartures()) {
-                beste = selecteerBeste(beste, trein);
-            }
-            for (Departure trein : rijswijkResponse.getDepartures()) {
-                beste = selecteerBeste(beste, trein);
-            }
-            for (Departure trein : denhaagHSResponse.getDepartures()) {
-                beste = selecteerBeste(beste, trein);
-            }
-            logger.info("gekozen "+beste.getRouteText()+" "+beste.getDepartureTime());
-            model.addAttribute("trein", beste);
-        } catch (NSException e) {
-            logger.error("NSException while trying to load departure times: " + e.getMessage(), e);
-        }
+        Departure beste = getBestDeparture();
+
+        model.addAttribute("trein", beste);
 
         return "trein";
     }
 
-    private Departure selecteerBeste(Departure huidige, Departure kandidaat) {
-        logger.info("test "+kandidaat.getRouteText()+" "+kandidaat.getDepartureTime());
-        if (huidige == null) return kandidaat;
-        if ((huidige.getRouteText().indexOf("Delft")<0)  && (kandidaat.getRouteText().indexOf("Delft")>=0))
-            return kandidaat;
-        return huidige;
+    private Departure getBestDeparture() {
+
+
+
+        addDepartures(DELFT);
+        addDepartures(RIJSW);
+        addDepartures(DHHS);
+        cleanDepartures();
+
+        showdepartures();
+
+        return treinenOndermolen.get(treinenOndermolen.firstKey());
     }
 
-    private NSCommunicator produceNSCommunicator(String username, String pw) {
+    private void cleanDepartures() {
+        OffsetDateTime nu = OffsetDateTime.now().minus(0, ChronoUnit.MINUTES);
+
+        Iterator<String> it = treinenOndermolen.keySet().iterator();
+        while (it.hasNext()) {
+            String key = it.next();
+            Departure trein = treinenOndermolen.get(key);
+            if (trein.getDepartureTime().isBefore(nu)) {
+                logger.info("verwijder " + key + " " + trein.getRideNumber() + " -> " + trein.getRouteText() + " naar " + trein.getDestination());
+                it.remove();
+            }
+        }
+    }
+
+    private void showdepartures() {
+        for (String key: treinenOndermolen.keySet()) {
+            Departure trein = treinenOndermolen.get(key);
+            logger.info(key+" "+trein.getRideNumber()+" -> "+trein.getRouteText()+" naar "+trein.getDestination());
+        }
+    }
+
+    private void addDepartures(String station) {
+        DepartureInfoResponse response;
+        try {
+            response = produceNSCommunicator().getDepartures(station);
+            for (Departure vertrek : response.getDepartures()) {
+                if (komtOnderMolen(station, vertrek)) {
+                    vertrek.setOrigin(station);
+                    String key = vertrek.getDepartureTime().format(DateTimeFormatter.ISO_DATE_TIME)+" "+station;
+                    treinenOndermolen.put(key, vertrek);
+                }
+            }
+        } catch (NSException e) {
+            logger.error("NSException while trying to load departure times: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception while trying to load departure times: " + e.getMessage(), e);
+        }
+    }
+
+    private boolean komtOnderMolen(String station, Departure kandidaat) {
+        if (kandidaat == null) {
+            return false;
+        }
+        if (kandidaat.getRouteText() == null) {
+            return false;
+        }
+        if (DELFT.equals(station)) {
+            if (kandidaat.getTrack().equals("1")) {
+                return true;
+            }
+        } else {
+            if (kandidaat.getRouteText().toLowerCase().contains("delft")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private NSCommunicator produceNSCommunicator() {
 
         if (nsCommunicator == null) {
             NSCommunicatorConfiguration nsCommunicatorConfig = new NSCommunicatorConfiguration() {
 
                 @Override
                 public String getUsername() {
-                    return username;
+                    return NSusername;
                 }
 
                 @Override
                 public String getPassword() {
-                    return pw;
+                    return NSpw;
                 }
             };
             nsCommunicator = new NSCommunicator(nsCommunicatorConfig);
         }
         return nsCommunicator;
-
     }
-
 
 }
