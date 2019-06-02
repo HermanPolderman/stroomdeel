@@ -30,6 +30,8 @@ public class StroomdeelController {
     HttpHost target = new HttpHost("monitoringapi.solaredge.com", 443, "https");
     String startDate1 = "2018-06-01";
     String startDate = "2019-01-01";
+    String endDate  = "2019-12-31";
+    Double OudeOpbrengst = Double.valueOf(58233);
     String siteid = "715131";
     String api_key = "LNEPU21MZLCJSPTEDWPXAQZ09SMFXL8D";
     String siteidpolletjes = "564256";
@@ -66,8 +68,9 @@ public class StroomdeelController {
                 break;
             default:
         }
-        Double totaalkwh = (data.timeFrameEnergy.energy/factor)+58233;
-        model.addAttribute("totaalkwh", String.format( "%.0f", totaalkwh));
+        Double totaalkwh = (data.timeFrameEnergy.energy/factor);
+
+        model.addAttribute("totaalkwh", String.format( "%.0f", (OudeOpbrengst + totaalkwh)));
 
         return "flipclock";
     }
@@ -85,7 +88,7 @@ public class StroomdeelController {
                 break;
             default:
         }
-        Double totaalkwh = (data.timeFrameEnergy.energy/factor)+58233;
+        Double totaalkwh = (data.timeFrameEnergy.energy/factor)+OudeOpbrengst;
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         Text2Jpg.writeJpg(String.format( "%.0f", totaalkwh)+ " kwh", response.getOutputStream());
     }
@@ -108,7 +111,7 @@ public class StroomdeelController {
                 default:
             }
             Double kwh = (data.timeFrameEnergy.energy/factor/totaalstroomdelen);
-            Double totaalkwh = (data.timeFrameEnergy.energy/factor)+58233;
+            Double totaalkwh = (data.timeFrameEnergy.energy/factor)+OudeOpbrengst;
             model.addAttribute("unit", "kWh");
             model.addAttribute("kwh", String.format( "%.2f", kwh ));
             model.addAttribute("totaalkwh", String.format( "%.2f", totaalkwh));
@@ -123,7 +126,7 @@ public class StroomdeelController {
     }
 
     private SolarEdgeData readSolarEdge() {
-        String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
         HttpGet getRequest = new HttpGet("/site/"+siteid+"/timeFrameEnergy.json?startDate="+startDate+"&endDate="+endDate+"&api_key="+api_key);
 
 
