@@ -28,8 +28,8 @@ public class StroomdeelController {
 
     HttpClientBuilder clientbuilder = HttpClientBuilder.create();
     HttpHost target = new HttpHost("monitoringapi.solaredge.com", 443, "https");
-    String startDate = "2018-06-01";
-
+    String startDate1 = "2018-06-01";
+    String startDate = "2019-01-01";
     String siteid = "715131";
     String api_key = "LNEPU21MZLCJSPTEDWPXAQZ09SMFXL8D";
     String siteidpolletjes = "564256";
@@ -66,7 +66,7 @@ public class StroomdeelController {
                 break;
             default:
         }
-        Double totaalkwh = (data.timeFrameEnergy.energy/factor);
+        Double totaalkwh = (data.timeFrameEnergy.energy/factor)+58233;
         model.addAttribute("totaalkwh", String.format( "%.0f", totaalkwh));
 
         return "flipclock";
@@ -85,7 +85,7 @@ public class StroomdeelController {
                 break;
             default:
         }
-        Double totaalkwh = (data.timeFrameEnergy.energy/factor);
+        Double totaalkwh = (data.timeFrameEnergy.energy/factor)+58233;
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         Text2Jpg.writeJpg(String.format( "%.0f", totaalkwh)+ " kwh", response.getOutputStream());
     }
@@ -108,7 +108,7 @@ public class StroomdeelController {
                 default:
             }
             Double kwh = (data.timeFrameEnergy.energy/factor/totaalstroomdelen);
-            Double totaalkwh = (data.timeFrameEnergy.energy/factor);
+            Double totaalkwh = (data.timeFrameEnergy.energy/factor)+58233;
             model.addAttribute("unit", "kWh");
             model.addAttribute("kwh", String.format( "%.2f", kwh ));
             model.addAttribute("totaalkwh", String.format( "%.2f", totaalkwh));
