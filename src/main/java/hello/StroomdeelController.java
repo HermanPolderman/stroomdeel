@@ -29,9 +29,9 @@ public class StroomdeelController {
     HttpClientBuilder clientbuilder = HttpClientBuilder.create();
     HttpHost target = new HttpHost("monitoringapi.solaredge.com", 443, "https");
     String startDate1 = "2018-06-01";
-    String startDate = "2019-01-01";
-    String endDate  = "2019-12-31";
-    Double OudeOpbrengst = Double.valueOf(58233);
+    String startDate = "2020-01-28";
+    String endDate  = "2020-12-31";
+    Double OudeOpbrengst = Double.valueOf(151730);
     String siteid = "715131";
     String api_key = "LNEPU21MZLCJSPTEDWPXAQZ09SMFXL8D";
     String siteidpolletjes = "564256";
