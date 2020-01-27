@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Controller
@@ -28,14 +30,14 @@ public class StroomdeelController {
 
     HttpClientBuilder clientbuilder = HttpClientBuilder.create();
     HttpHost target = new HttpHost("monitoringapi.solaredge.com", 443, "https");
-    String startDate1 = "2018-06-01";
-    String startDate = "2020-01-28";
-    String endDate  = "2020-12-31";
-    Double OudeOpbrengst = Double.valueOf(151730);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     String siteid = "715131";
     String api_key = "LNEPU21MZLCJSPTEDWPXAQZ09SMFXL8D";
-    String siteidpolletjes = "564256";
+    String siteid_polletjes = "564256";
     String api_key_polletjes = "NCFWGOTDJ225818AQJTFFT1W137XMCQO";
+
     Integer totaalstroomdelen = 912;
 
     @GetMapping("/stroomdeel")
@@ -61,16 +63,22 @@ public class StroomdeelController {
                                     @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
                                     Model model) throws IOException {
         SolarEdgeData data = readSolarEdge();
-        int factor =1;
-        switch (data.timeFrameEnergy.unit) {
-            case "Wh":
-                factor = 1000;
-                break;
-            default:
-        }
-        Double totaalkwh = (data.timeFrameEnergy.energy/factor);
+        Double totaalkwh = getTotalkWh(data);
 
-        model.addAttribute("totaalkwh", String.format( "%.0f", (OudeOpbrengst + totaalkwh)));
+        model.addAttribute("totaalkwh", String.format( "%.0f", totaalkwh));
+
+        return "flipclock";
+    }
+
+    @GetMapping("/counterpolletjes")
+    public String counterpolletjes(HttpServletResponse response,
+                          @RequestParam(name="naam", required=false, defaultValue="Deelstromer") String naam,
+                          @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
+                          Model model) throws IOException {
+        SolarEdgeData data = readSolarEdgePolletjes();
+        Double totaalkwh = getTotalkWh(data);
+
+        model.addAttribute("totaalkwh", String.format( "%.0f", totaalkwh));
 
         return "flipclock";
     }
@@ -81,21 +89,26 @@ public class StroomdeelController {
                                     @RequestParam(name="stroomdelen", required=false, defaultValue="0") Integer stroomdelen,
                                     Model model) throws IOException {
         SolarEdgeData data = readSolarEdge();
-        int factor =1;
-        switch (data.timeFrameEnergy.unit) {
+        Double totaalkwh = getTotalkWh(data);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        Text2Jpg.writeJpg(String.format( "%.0f", totaalkwh)+ " kwh", response.getOutputStream());
+    }
+
+    private Double getTotalkWh(SolarEdgeData data) {
+        int factor = 1;
+        switch (data.timeFrameEnergy.endLifetimeEnergy.unit) {
             case "Wh":
                 factor = 1000;
                 break;
             default:
         }
-        Double totaalkwh = (data.timeFrameEnergy.energy/factor)+OudeOpbrengst;
-        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        Text2Jpg.writeJpg(String.format( "%.0f", totaalkwh)+ " kwh", response.getOutputStream());
+        return data.timeFrameEnergy.endLifetimeEnergy.energy / factor;
     }
 
     private void readSolarEdge(Model model, String naam, Integer stroomdelen) {
 
-        String endDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String startDate = getCurrentDateString(0);
+        String endDate = getCurrentDateString(1);
         HttpGet getRequest = new HttpGet("/site/"+siteid+"/timeFrameEnergy.json?startDate="+startDate+"&endDate="+endDate+"&api_key="+api_key);
 
         model.addAttribute("naam", naam);
@@ -103,15 +116,9 @@ public class StroomdeelController {
         model.addAttribute("totaalstroomdelen", totaalstroomdelen);
         try {
             SolarEdgeData data = readSolarEdge();
-            int factor =1;
-            switch (data.timeFrameEnergy.unit) {
-                case "Wh":
-                    factor = 1000;
-                    break;
-                default:
-            }
-            Double kwh = (data.timeFrameEnergy.energy/factor/totaalstroomdelen);
-            Double totaalkwh = (data.timeFrameEnergy.energy/factor)+OudeOpbrengst;
+            Double totaalkwh = getTotalkWh(data);
+            Double kwh = (data.timeFrameEnergy.energy/1000/totaalstroomdelen);
+
             model.addAttribute("unit", "kWh");
             model.addAttribute("kwh", String.format( "%.2f", kwh ));
             model.addAttribute("totaalkwh", String.format( "%.2f", totaalkwh));
@@ -125,10 +132,23 @@ public class StroomdeelController {
         }
     }
 
+    private String getCurrentDateString(int add) {
+        LocalDate tomorrow = LocalDate.now().plusDays(add);
+        return tomorrow.format(formatter);
+    }
+
     private SolarEdgeData readSolarEdge() {
+        return _readSolarEdge(siteid, api_key);
+    }
 
+    private SolarEdgeData readSolarEdgePolletjes() {
+        return _readSolarEdge(siteid_polletjes, api_key_polletjes);
+    }
+    private SolarEdgeData _readSolarEdge(String siteid, String api_key) {
+
+        String startDate = getCurrentDateString(0);
+        String endDate = getCurrentDateString(1);
         HttpGet getRequest = new HttpGet("/site/"+siteid+"/timeFrameEnergy.json?startDate="+startDate+"&endDate="+endDate+"&api_key="+api_key);
-
 
         try (CloseableHttpClient httpclient = clientbuilder.build()) {
             HttpResponse httpResponse = httpclient.execute(target, getRequest);

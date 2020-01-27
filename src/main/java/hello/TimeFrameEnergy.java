@@ -7,4 +7,15 @@ public class TimeFrameEnergy {
     public String unit;
     public LifetimeEnergy startLifetimeEnergy;
     public LifetimeEnergy endLifetimeEnergy;
+
+    @Override
+    public String toString() {
+        return "TimeFrameEnergy{" +
+                "energy=" + energy +
+                ", measuredBy='" + measuredBy + '\'' +
+                ", unit='" + unit + '\'' +
+                ", startLifetimeEnergy=" + startLifetimeEnergy +
+                ", endLifetimeEnergy=" + endLifetimeEnergy +
+                '}';
+    }
 }
